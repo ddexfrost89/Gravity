@@ -4,7 +4,7 @@ public class Gravity : MonoBehaviour {
 
 	private int GrDir = 0;
 	private Vector3 GrStr;
-	private Vector3 Step;
+	public Vector3 Step;
 	private bool changing;
 	private bool FS;//front step or front changing
 	private bool BS;//back step or back changing
@@ -14,12 +14,14 @@ public class Gravity : MonoBehaviour {
 	private bool US;//jump or up changing
 	private const float SL = 1;// step length
 
-	private float StrikePower; // last step time
+	public float StrikePower; // last step time
 
 	private float LST; // last step time
 	private float RT; // real time
 
 	private int TestStepCount;
+
+	public bool Ground;
 
 
 	// Use this for initialization
@@ -68,32 +70,33 @@ public class Gravity : MonoBehaviour {
 	}
 
 	private void StepFront () {
-		Step = new Vector3(SL, 0, 0);
-		Step = Vector3.RotateTowards (Step, transform.forward, 8, 0);
-		TestStepCount += 1;
+		var s = new Vector3(SL, 0, 0);
+		s = Vector3.RotateTowards (s, transform.forward, 8, 0);
+		Step += s;
 	}
 	
 	private void StepBack () {
-		Step = new Vector3(-SL, 0, 0);
-		Step = Vector3.RotateTowards (Step, -transform.forward, 8, 0);
-		TestStepCount += 1;
+		var s = new Vector3(-SL, 0, 0);
+		s = Vector3.RotateTowards (s, -transform.forward, 8, 0);
+		Step += s;
 	}
 	
 	private void StepRight () {
-		Step = new Vector3(0, 0, SL);
-		Step = Vector3.RotateTowards (Step, transform.right, 8, 0);
-		TestStepCount += 1;
+		var s = new Vector3(0, 0, SL);
+		s = Vector3.RotateTowards (s, transform.right, 8, 0);
+		Step += s;
 	}
 	
 	private void StepLeft () {
-		Step = new Vector3(0, 0, -SL);
-		Step = Vector3.RotateTowards (Step, -transform.right, 8, 0);
-		TestStepCount += 1;
+		var s = new Vector3(0, 0, -SL);
+		s = Vector3.RotateTowards (s, -transform.right, 8, 0);
+		Step += s;
 	}
 	
 	private void StepUp () {
-		Step = new Vector3(0, SL, 0);
-		Step = Vector3.RotateTowards (Step, transform.up, 8, 0);
+		var s = new Vector3(0, SL, 0);
+		s = Vector3.RotateTowards (s, transform.up, 8, 0);
+		Step += s;
 	}
 
 	private void StepStop () {
@@ -101,11 +104,13 @@ public class Gravity : MonoBehaviour {
 	}
 
 	private bool IsGrounded(){
-		return true;
+		RaycastHit help;
+		if(Physics.CapsuleCast (transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1/2, -transform.up, out help, 1, ~0)){return true;}
+		return false;
 	}
 
 	private float CheckStrike(){ //returning -1 if step is posible, and returning StrikePower if striking an object
-		if (TestStepCount < 10)
+		if (TestStepCount > -10000)
 			return -1;
 		return 0;
 	}
@@ -122,6 +127,7 @@ public class Gravity : MonoBehaviour {
 		RS = Input.GetKey(KeyCode.D);
 		DS = Input.GetKey(KeyCode.X);
 		US = Input.GetKey(KeyCode.Space);
+		Ground = IsGrounded ();
 		if (changing) {
 			if (FS)
 				SetFront ();
@@ -135,16 +141,16 @@ public class Gravity : MonoBehaviour {
 				SetUp ();
 			else if (DS)
 				SetDown ();
-		} else if (IsGrounded()) {
+		} else if (Ground){//IsGrounded()) {
 			if (FS)
 				StepFront ();
-			else if (BS)
+			if (BS)
 				StepBack ();
-			else if (LS)
+			if (LS)
 				StepLeft ();
-			else if (RS)
+			if (RS)
 				StepRight ();
-			else if (US)
+			if (US)
 				StepUp ();
 		}
 
