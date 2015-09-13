@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour {
     void Update () {
         rotationX = Input.GetAxis("Mouse X") * 10F;
         rotationY = Input.GetAxis("Mouse Y") * 10F;
-        if (Mathf.Abs(Vector3.Angle(Head.transform.forward, Body.transform.forward) - rotationY) < 70)
+        if (((Mathf.Abs(Vector3.Angle(Head.transform.forward, Body.transform.forward) - rotationY) < 70)&&(Vector3.Angle(Head.transform.forward, Body.transform.up) > 90))||((Mathf.Abs(Vector3.Angle(Head.transform.forward, Body.transform.forward) + rotationY) < 70) && (Vector3.Angle(Head.transform.forward, Body.transform.up) <= 90)))
             Head.transform.Rotate(new Vector3(-rotationY, 0, 0));
         Body.transform.Rotate(new Vector3(0, rotationX, 0));
     }
