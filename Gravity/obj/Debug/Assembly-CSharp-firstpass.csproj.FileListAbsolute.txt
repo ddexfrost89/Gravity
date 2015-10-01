@@ -17,6 +17,6 @@ C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEngine.xml
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEditor.xml
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEngine.UI.xml
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEngine.Networking.xml
-C:\Users\Main\Documents\GitHub\Gravity\Gravity\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Main\Documents\GitHub\Gravity\Gravity\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache

@@ -4,7 +4,7 @@ public class Gravity : MonoBehaviour {
 
 	private int GrDir = 0;
 	private Vector3 GrStr;
-	public Vector3 Step;
+	private Vector3 Step;
 	private bool changing;
 	private bool FS;//front step or front changing
 	private bool BS;//back step or back changing
@@ -19,9 +19,9 @@ public class Gravity : MonoBehaviour {
 	private float LST; // last step time
 	private float RT; // real time
 
-	private int TestStepCount;
-
 	public bool Ground;
+
+    private Transform Head, Body, ForwardTarget;
 
 
 	// Use this for initialization
@@ -30,8 +30,10 @@ public class Gravity : MonoBehaviour {
 		StepStop ();
 		LST = Time.realtimeSinceStartup - 10;
 		RT = Time.realtimeSinceStartup;
-		TestStepCount = 0;
-	}
+        Body = transform.GetChild(0);
+        Head = transform.GetChild(1);
+        ForwardTarget = transform.GetChild(2);
+    }
 
 	private void SetDown () {
 		GrDir = 0;
@@ -42,13 +44,13 @@ public class Gravity : MonoBehaviour {
 	private void SetFront () {
 		GrDir = 1;
 		GrStr = new Vector3(1, 0, 0);
-		GrStr = Vector3.RotateTowards (GrStr, transform.forward, 8, 0);
+		GrStr = Vector3.RotateTowards (GrStr, Head.forward, 8, 0);
 	}
 
 	private void SetBack () {
 		GrDir = 4;
 		GrStr = new Vector3(-1, 0, 0);
-		GrStr = Vector3.RotateTowards (GrStr, -transform.forward, 8, 0);
+		GrStr = Vector3.RotateTowards (GrStr, -Head.forward, 8, 0);
 	}
 
 	private void SetRight () {
@@ -109,12 +111,39 @@ public class Gravity : MonoBehaviour {
 		return false;
 	}
 
-	private float CheckStrike(){ //returning -1 if step is posible, and returning StrikePower if striking an object
-		if (TestStepCount > -10000)
-			return -1;
-		return 0;
-	}
+	private float CheckStrike(){ //returning -1 if step is posible, and returning StrikePower if striking an object	
+        RaycastHit help;
+        Rigidbody rb = this.GetComponent<Rigidbody> ();
+        if (Physics.CapsuleCast(transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, rb.velocity, out help, Vector3.Magnitude(rb.velocity) * Time.fixedDeltaTime, ~0))
+        {
+            float v = Vector3.Magnitude(rb.velocity);
+            if (v < 1)
+                return 0;
+            return (v - 1) * (v - 1) / 625 * 100;
+        }
+        return -1;
+    }
 
+    private void StandUp()
+    {
+        var help = Physics.CapsuleCastAll(transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, -transform.up, 1, ~0, QueryTriggerInteraction.UseGlobal);
+        foreach(var g in help)
+        {
+            var a = g.transform.up;
+            var b = transform.up;
+            var ang = Vector3.Angle(a, b);
+            if (ang <= 30)
+            {
+                var c = new Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+                transform.Rotate(c, ang);
+                if(Vector3.Angle(a, transform.up) > ang)
+                {
+                    transform.Rotate(c, -2 * ang);
+                }
+                break;
+            }
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -153,6 +182,10 @@ public class Gravity : MonoBehaviour {
 			if (US)
 				StepUp ();
 		}
+
+        if (Ground){
+            StandUp();
+        }
 
 		GetComponent<Rigidbody>().AddForce (GrStr);
 

@@ -30,7 +30,6 @@ C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\Unity.CecilTools.d
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\Mono.Cecil.Pdb.dll
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\Mono.Cecil.Mdb.dll
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
-C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\Assembly-CSharp.pdb
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEngine.xml
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEditor.xml
 C:\Users\Main\Documents\GitHub\Gravity\Gravity\Temp\bin\Debug\UnityEditor.Advertisements.xml
