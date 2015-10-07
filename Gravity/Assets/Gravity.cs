@@ -12,7 +12,7 @@ public class Gravity : MonoBehaviour {
 	private bool LS;//left step or left changing
 	private bool DS;// or down changing
 	private bool US;//jump or up changing
-	private const float SL = 1;// step length
+	private const float SL = 2;// step length
 
 	public float StrikePower; // last step time
 
@@ -107,14 +107,14 @@ public class Gravity : MonoBehaviour {
 
 	private bool IsGrounded(){
 		RaycastHit help;
-		if(Physics.CapsuleCast (transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1/2, -transform.up, out help, 1, ~0)){return true;}
+		if(Physics.CapsuleCast (transform.position - 5/2 * Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1/2, -transform.up, out help, 1, ~0)){return true;}
 		return false;
 	}
 
 	private float CheckStrike(){ //returning -1 if step is posible, and returning StrikePower if striking an object	
         RaycastHit help;
         Rigidbody rb = this.GetComponent<Rigidbody> ();
-        if (Physics.CapsuleCast(transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, rb.velocity, out help, Vector3.Magnitude(rb.velocity) * Time.fixedDeltaTime, ~0))
+        if (Physics.CapsuleCast(transform.position - 5 / 2 * Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, rb.velocity, out help, Vector3.Magnitude(rb.velocity) * Time.fixedDeltaTime, ~0))
         {
             float v = Vector3.Magnitude(rb.velocity);
             if (v < 1)
@@ -126,13 +126,13 @@ public class Gravity : MonoBehaviour {
 
     private void StandUp()
     {
-        var help = Physics.CapsuleCastAll(transform.position - Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, -transform.up, 1, ~0, QueryTriggerInteraction.UseGlobal);
+        var help = Physics.CapsuleCastAll(transform.position - 5 / 2 * Vector3.Normalize(transform.up), transform.position + Vector3.Normalize(transform.up), 1 / 2, -transform.up, 1, ~0, QueryTriggerInteraction.UseGlobal);
         foreach(var g in help)
         {
             var a = g.transform.up;
             var b = transform.up;
             var ang = Vector3.Angle(a, b);
-            if (ang <= 30)
+            if (ang <= 45)
             {
                 var c = new Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
                 transform.Rotate(c, ang);
@@ -183,9 +183,9 @@ public class Gravity : MonoBehaviour {
 				StepUp ();
 		}
 
-        if (Ground){
-            StandUp();
-        }
+        //if (Ground){
+        //    StandUp();
+        //}
 
 		GetComponent<Rigidbody>().AddForce (GrStr);
 
