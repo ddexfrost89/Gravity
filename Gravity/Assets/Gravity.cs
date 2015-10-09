@@ -26,13 +26,13 @@ public class Gravity : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		SetDown ();
+        gameObject.GetComponent<HPcounter>().typeOb = 1;
+        SetDown ();
 		StepStop ();
 		LST = Time.realtimeSinceStartup - 10;
 		RT = Time.realtimeSinceStartup;
         Body = transform.GetChild(0);
         Head = transform.GetChild(1);
-        ForwardTarget = transform.GetChild(2);
     }
 
 	private void SetDown () {
@@ -187,7 +187,7 @@ public class Gravity : MonoBehaviour {
         //    StandUp();
         //}
 
-		GetComponent<Rigidbody>().AddForce (GrStr);
+            GetComponent<Rigidbody>().AddForce (GrStr);
 
 		RT = Time.realtimeSinceStartup;
 		if (RT - LST > Time.fixedDeltaTime) {

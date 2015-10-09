@@ -47,6 +47,8 @@
   <ItemGroup>
      <Compile Include="Assets\CameraController.cs" />
      <Compile Include="Assets\Gravity.cs" />
+     <Compile Include="Assets\GravityForTargets.cs" />
+     <Compile Include="Assets\HPcounter.cs" />
      <Compile Include="Assets\Shooting_Controll.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
